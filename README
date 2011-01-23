@@ -1,0 +1,18 @@
+Building
+========
+
+The oblsc sofware requires glib-2.0. At the time of writing the author
+uses version 2.26.1.
+
+Reporting Bugs
+==============
+
+Please use the issue tracker at https://github.com/frej/oblsc/issues
+before sending an email to the author.
+
+Contributing
+============
+
+The public Git repository is located at
+https://github.com/frej/oblsc. Please use the github facilities for
+submitting contributions.

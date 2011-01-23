@@ -1,0 +1,7 @@
+# Example oblsc configuration file
+
+[device]
+	baudrate = 1152000
+[clock]
+
+[capture]

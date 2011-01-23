@@ -1,0 +1,10 @@
+* Do not hard-code tolerance for time delay precision.
+
+  + Have a configurable parameter for the allowed relative error in
+    the configuration.
+
+* Limit the capture length
+
+* Better error handling in the trigger parser
+
+

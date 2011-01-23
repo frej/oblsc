@@ -1,0 +1,272 @@
+OBLSC(1)
+========
+:Author: Frej Drejhammar
+:Email: <frej.drejhammar@gmail.com>
+
+NAME
+----
+oblsc - Capture signals to a Value Change Dump (VCD) using the Open
+        Bench Logic Sniffer
+
+SYNOPSIS
+--------
+*oblsc* ['OPTIONS']
+
+DESCRIPTION
+-----------
+
+Oblsc is a command line utility to capture logic signals to a Value
+Change Dump (VCD) using the Open Bench Logic Sniffer. It was written
+in order to have a simple command line client for the Open Bench Logic
+Sniffer which does not require Java nor a graphical environment.
+
+Oblsc has a powerful language for defining trigger conditions which
+does not require the user to define the conditions at the level of
+hardware registers in the Open Bench Logic Sniffer. Oblsc
+automatically configures the hardware's channel groups to maximize
+memory depth and sample rate.
+
+OPTIONS
+-------
+*-h, --help*::
+     Show usage help.
+
+*-C, --config*='FILE'::
+
+     Specify a configuration file. If not specified oblsc looks for a
+     file named oblsc.rc in the XDG_CONFIG_HOME directory according to
+     the XDG Base Directory Specification (normally ~/.config/). See
+     the CONFIGURATION section for configuration file details.
+
+*-D, --device*='DEVICE'::
+
+     The device of the Open Bench Logic Sniffer. The default is
+     '/dev/ttyACM0'.
+
+*-B, --baudrate*='BAUDRATE'::
+
+     The baudrate to use for communicating with the Open Bench Logic
+     Sniffer. The default is '115200'.
+
+*-t, --trigger*='TRIGGER'::
+
+     Specify a trigger, see the TRIGGER section for details on the
+     syntax.
+
+*-r, --trigger-split*='<percent>% | <time>'::
+
+     Specify the number of samples to keep before the
+     trigger-point. The amount can be specified as a percentage of the
+     total sample store or as a time (See the TIME section for details
+     on the valid time units). The default is 0%.
+
+*-S, --sample-rate*='HZ'::
+
+     Specify the sample rate in Hz. The suffixes k and M are
+     understood. The default is 100MHz.
+
+*-f, --filter*='true/false (1/0)'::
+
+     Control the use of the input filter module. It is enabled by
+     default.
+
+*-e, --external-clock*='true/false (1/0)'::
+
+     Control the use of the external clock. It is disabled by default.
+
+*-i, --invert-external-clock*='true/false (1/0)'::
+
+     Control if the external clock is inverted. By default it is not
+     inverted.
+
+*-o, --output*='FILE'::
+
+     By default the resulting VCD is written to stdout. If this option
+     is used it is written to FILE instead.
+
+*-s, --signal*='<name>:<chlist>'::
+
+     Define an input signal named <name> which consists of the input
+     channels in '<chlist>'. A '<chlist>' is a comma separated list of
+     channel numbers ([0-9]+) and/or channel spans. A channel span
+     consists of two channel numbers separated by a '-', i.e. '10-13'
+     which is a shorthand for '10,11,12,13'.
+
+
+CONFIGURATION
+-------------
+
+Oblsc uses a freedesktop.org key file (see the Desktop Entry
+Specification) to specify default values for some of the command line
+options. A command line parameter will override the value in the
+configuration file if both are given. A commented sample file is
+provided with the oblsc distribution. The following parameters are
+understood:
+
+.Configuration file parameters
+[options="header"]
+|=======================
+|Group|Key|Equivalent command line parameter
+|device|device|`--device`
+|device|baudrate|`--baudrate`
+|clock|sample-rate|`--sample-rate`
+|clock|external-clock|`--external-clock`
+|clock|invert-external-clock|`--invert-external-clock`
+|capture|filter|`--filter`
+|capture|split|`--trigger-split`
+|=======================
+
+
+TIME
+----
+
+When time intervals are specified they can be specified as either a
+specific number of samples or as a time. If no unit is given the
+number is parsed as a number of samples, oblsc understands the units
+`s`, `ms`, `us`, `ns` and `ps`. If the time, as specified, differs by
+more than ten percent from the actual time as used by the hardware (in
+samples) oblsc will print a warning.
+
+TRIGGER
+-------
+
+* Grammar
+
+A trigger specification has the following grammar:
+
+ <triggers> ::= '(' <sequential_triggers> ')';
+            |   '{' <parallel_triggers> '}';
+            |   <delayed_trigger>
+	    ;
+
+ <sequential_triggers> ::= <sequential_triggers> ',' <trigger>
+                       | <delayed_trigger>
+		       ;
+
+ <parallel_triggers> ::= <parallel_triggers> ',' <trigger>
+ 		     |   <delayed_trigger>
+		     ;
+
+ <delayed_trigger> ::= <trigger> '/' <time>
+		   |   <trigger>
+		   ;
+
+ <trigger> ::= <timed_trigger>
+ 	   |   '[' <pattern_triggers> ']'
+	   ;
+
+ <timed_trigger> ::= <name> '=' '[' <timed_values> ']';
+
+ <timed_values> ::= <timed_values> ',' <timed_value>
+ 		|   <timed_value>
+		;
+
+ <timed_value> ::= <value> '/' <time>;
+
+ <pattern_triggers> ::= <pattern_triggers> ',' <pattern_trigger>
+ 		    |   <pattern_trigger>
+		    ;
+
+ <pattern_trigger> ::= <name> '=' <value>;
+
+ <value> ::= "0x"[0-9a-fA-F]+
+ 	 |   "0"[0-7]+
+	 |   [0-9]+
+	 ;
+
+ <name> ::= [a-z][a-z0-9]*
+
+* Semantics
+
+A sequence of _sequential triggers_ will start the capture when all
+members have triggered.
+
+A set of _parallel triggers_ will start the capture when at least one
+of its members has triggered.
+
+A _delayed trigger_ will delay the start of the capture following a
+trigger match by the specified time delay.
+
+A _pattern trigger_ allows capture to start when the input signals
+have a particular state.
+
+A _timed trigger_ starts a capture when an input signal has been at
+the given state for the specified time interval.
+
+Note that although the trigger specification language allows timed and
+pattern triggers to be mixed, trigger expressiveness is usually pretty
+limited as the hardware is limited to only four registers for encoding
+triggers.
+
+EXAMPLES
+--------
+
+To capture the one bit signal _clock_ on channel zero together with
+the four bit signal _data_ (with channel four being the most
+significant bit) on channels four to one to the file
+'/tmp/capture.vcd' the following command could be used:
+
+----
+oblsc -s clock:0 -s data:4-1 -o /tmp/capture.vcd
+----
+
+If we want the capture to start when _data_ has been 0 for 10ns we
+would add a trigger:
+
+----
+oblsc -s clock:0 -s data:4-1 -t "data=[0/10ns]" -o /tmp/capture.vcd
+----
+
+To start the capture when _data_ is 0xF and _clock_ is 1 we would use:
+
+----
+oblsc -s clock:0 -s data:4-1 -t "[data=0xf,clock=1]" -o /tmp/capture.vcd
+----
+
+FIRMWARE REQUIREMENTS
+---------------------
+
+Oblsc will only work with the v2.12 FPGA bitstream and with PIC
+firmware versions >= 2.0.
+
+AUTHOR
+------
+
+The Open Bench Logic Sniffer Client was written by {author} {email}.
+
+RESOURCES
+---------
+Wikipedia article on VCD: <https://secure.wikimedia.org/wikipedia/en/wiki/Value_change_dump>
+
+Main web site: <https://github.com/frej/oblsc/wiki>
+
+Desktop Entry Specification http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
+
+Gtkwave, a VCD viewer http://gtkwave.sourceforge.net/
+
+COPYING
+-------
+
+* The oblsc software
+
+The oblsc software is distributed under the terms of the GNU GENERAL
+PUBLIC LICENSE Version 2 and is Copyright \(C) 2010-2011 by {author}
+{email}.
+
+* This documentation
+
+Copyright \(C) 2010-2011 {author} {email}.
+
+Permission is granted to make and distribute verbatim copies of this
+document provided the copyright notice and this permission notice are
+preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+document under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+Permission is granted to copy and distribute translations of this
+document into another language, under the above conditions for
+modified versions, except that this permission notice may be stated in
+a translation approved by the Free Software Foundation.
