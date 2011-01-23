@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>OBLSC(1)</title><link rel="stylesheet" href="docbook-xsl.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.75.2" /></head><body><div xml:lang="en" class="article" title="OBLSC(1)" lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="id519579"></a>OBLSC(1)</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Frej</span> <span class="surname">Drejhammar</span></h3><code class="email">&lt;<a class="email" href="mailto:&lt;frej.drejhammar@gmail.com&gt;">&lt;frej.drejhammar@gmail.com&gt;</a>&gt;</code></div></div></div><hr /></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#_name">1. NAME</a></span></dt><dt><span class="section"><a href="#_synopsis">2. SYNOPSIS</a></span></dt><dt><span class="section"><a href="#_description">3. DESCRIPTION</a></span></dt><dt><span class="section"><a href="#_options">4. OPTIONS</a></span></dt><dt><span class="section"><a href="#_configuration">5. CONFIGURATION</a></span></dt><dt><span class="section"><a href="#_time">6. TIME</a></span></dt><dt><span class="section"><a href="#_trigger">7. TRIGGER</a></span></dt><dt><span class="section"><a href="#_examples">8. EXAMPLES</a></span></dt><dt><span class="section"><a href="#_firmware_requirements">9. FIRMWARE REQUIREMENTS</a></span></dt><dt><span class="section"><a href="#_author">10. AUTHOR</a></span></dt><dt><span class="section"><a href="#_resources">11. RESOURCES</a></span></dt><dt><span class="section"><a href="#_copying">12. COPYING</a></span></dt></dl></div><div class="section" title="1. NAME"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_name"></a>1. NAME</h2></div></div></div><p>oblsc - Capture signals to a Value Change Dump (VCD) using the Open
+        Bench Logic Sniffer</p></div><div class="section" title="2. SYNOPSIS"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_synopsis"></a>2. SYNOPSIS</h2></div></div></div><p><span class="strong"><strong>oblsc</strong></span> [<span class="emphasis"><em>OPTIONS</em></span>]</p></div><div class="section" title="3. DESCRIPTION"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_description"></a>3. DESCRIPTION</h2></div></div></div><p>Oblsc is a command line utility to capture logic signals to a Value
+Change Dump (VCD) using the Open Bench Logic Sniffer. It was written
+in order to have a simple command line client for the Open Bench Logic
+Sniffer which does not require Java nor a graphical environment.</p><p>Oblsc has a powerful language for defining trigger conditions which
+does not require the user to define the conditions at the level of
+hardware registers in the Open Bench Logic Sniffer. Oblsc
+automatically configures the hardware’s channel groups to maximize
+memory depth and sample rate.</p></div><div class="section" title="4. OPTIONS"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_options"></a>4. OPTIONS</h2></div></div></div><div class="variablelist"><dl><dt><span class="term">
+<span class="strong"><strong>-h, --help</strong></span>
+</span></dt><dd>
+     Show usage help.
+</dd><dt><span class="term">
+<span class="strong"><strong>-C, --config</strong></span>=<span class="emphasis"><em>FILE</em></span>
+</span></dt><dd>
+     Specify a configuration file. If not specified oblsc looks for a
+     file named oblsc.rc in the XDG_CONFIG_HOME directory according to
+     the XDG Base Directory Specification (normally ~/.config/). See
+     the CONFIGURATION section for configuration file details.
+</dd><dt><span class="term">
+<span class="strong"><strong>-D, --device</strong></span>=<span class="emphasis"><em>DEVICE</em></span>
+</span></dt><dd>
+     The device of the Open Bench Logic Sniffer. The default is
+     <span class="emphasis"><em>/dev/ttyACM0</em></span>.
+</dd><dt><span class="term">
+<span class="strong"><strong>-B, --baudrate</strong></span>=<span class="emphasis"><em>BAUDRATE</em></span>
+</span></dt><dd>
+     The baudrate to use for communicating with the Open Bench Logic
+     Sniffer. The default is <span class="emphasis"><em>115200</em></span>.
+</dd><dt><span class="term">
+<span class="strong"><strong>-t, --trigger</strong></span>=<span class="emphasis"><em>TRIGGER</em></span>
+</span></dt><dd>
+     Specify a trigger, see the TRIGGER section for details on the
+     syntax.
+</dd><dt><span class="term">
+<span class="strong"><strong>-r, --trigger-split</strong></span>=<span class="emphasis"><em>&lt;percent&gt;% | &lt;time&gt;</em></span>
+</span></dt><dd>
+     Specify the number of samples to keep before the
+     trigger-point. The amount can be specified as a percentage of the
+     total sample store or as a time (See the TIME section for details
+     on the valid time units). The default is 0%.
+</dd><dt><span class="term">
+<span class="strong"><strong>-S, --sample-rate</strong></span>=<span class="emphasis"><em>HZ</em></span>
+</span></dt><dd>
+     Specify the sample rate in Hz. The suffixes k and M are
+     understood. The default is 100MHz.
+</dd><dt><span class="term">
+<span class="strong"><strong>-f, --filter</strong></span>=<span class="emphasis"><em>true/false (1/0)</em></span>
+</span></dt><dd>
+     Control the use of the input filter module. It is enabled by
+     default.
+</dd><dt><span class="term">
+<span class="strong"><strong>-e, --external-clock</strong></span>=<span class="emphasis"><em>true/false (1/0)</em></span>
+</span></dt><dd>
+     Control the use of the external clock. It is disabled by default.
+</dd><dt><span class="term">
+<span class="strong"><strong>-i, --invert-external-clock</strong></span>=<span class="emphasis"><em>true/false (1/0)</em></span>
+</span></dt><dd>
+     Control if the external clock is inverted. By default it is not
+     inverted.
+</dd><dt><span class="term">
+<span class="strong"><strong>-o, --output</strong></span>=<span class="emphasis"><em>FILE</em></span>
+</span></dt><dd>
+     By default the resulting VCD is written to stdout. If this option
+     is used it is written to FILE instead.
+</dd><dt><span class="term">
+<span class="strong"><strong>-s, --signal</strong></span>=<span class="emphasis"><em>&lt;name&gt;:&lt;chlist&gt;</em></span>
+</span></dt><dd>
+     Define an input signal named &lt;name&gt; which consists of the input
+     channels in <span class="emphasis"><em>&lt;chlist&gt;</em></span>. A <span class="emphasis"><em>&lt;chlist&gt;</em></span> is a comma separated list of
+     channel numbers ([0-9]+) and/or channel spans. A channel span
+     consists of two channel numbers separated by a <span class="emphasis"><em>-</em></span>, i.e. <span class="emphasis"><em>10-13</em></span>
+     which is a shorthand for <span class="emphasis"><em>10,11,12,13</em></span>.
+</dd></dl></div></div><div class="section" title="5. CONFIGURATION"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_configuration"></a>5. CONFIGURATION</h2></div></div></div><p>Oblsc uses a freedesktop.org key file (see the Desktop Entry
+Specification) to specify default values for some of the command line
+options. A command line parameter will override the value in the
+configuration file if both are given. A commented sample file is
+provided with the oblsc distribution. The following parameters are
+understood:</p><div class="table"><a id="id518850"></a><p class="title"><b>Table 1. Configuration file parameters</b></p><div class="table-contents"><table summary="Configuration file parameters" cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; "><colgroup><col /><col /><col /></colgroup><thead><tr><th style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top">Group</th><th style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top">Key</th><th style="border-bottom: 1px solid #527bbd; " align="left" valign="top">Equivalent command line parameter</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>device</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>device</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">--device</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>device</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>baudrate</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">--baudrate</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>clock</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>sample-rate</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">--sample-rate</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>clock</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>external-clock</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">--external-clock</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>clock</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>invert-external-clock</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">--invert-external-clock</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>capture</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>filter</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">--filter</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>capture</p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>split</p></td><td style="" align="left" valign="top"><p><code class="literal">--trigger-split</code></p></td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section" title="6. TIME"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_time"></a>6. TIME</h2></div></div></div><p>When time intervals are specified they can be specified as either a
+specific number of samples or as a time. If no unit is given the
+number is parsed as a number of samples, oblsc understands the units
+<code class="literal">s</code>, <code class="literal">ms</code>, <code class="literal">us</code>, <code class="literal">ns</code> and <code class="literal">ps</code>. If the time, as specified, differs by
+more than ten percent from the actual time as used by the hardware (in
+samples) oblsc will print a warning.</p></div><div class="section" title="7. TRIGGER"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_trigger"></a>7. TRIGGER</h2></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+Grammar
+</li></ul></div><p>A trigger specification has the following grammar:</p><pre class="literallayout">&lt;triggers&gt; ::= '(' &lt;sequential_triggers&gt; ')';
+           |   '{' &lt;parallel_triggers&gt; '}';
+           |   &lt;delayed_trigger&gt;
+           ;</pre><pre class="literallayout">&lt;sequential_triggers&gt; ::= &lt;sequential_triggers&gt; ',' &lt;trigger&gt;
+                      | &lt;delayed_trigger&gt;
+                      ;</pre><pre class="literallayout">&lt;parallel_triggers&gt; ::= &lt;parallel_triggers&gt; ',' &lt;trigger&gt;
+                    |   &lt;delayed_trigger&gt;
+                    ;</pre><pre class="literallayout">&lt;delayed_trigger&gt; ::= &lt;trigger&gt; '/' &lt;time&gt;
+                  |   &lt;trigger&gt;
+                  ;</pre><pre class="literallayout">&lt;trigger&gt; ::= &lt;timed_trigger&gt;
+          |   '[' &lt;pattern_triggers&gt; ']'
+          ;</pre><pre class="literallayout">&lt;timed_trigger&gt; ::= &lt;name&gt; '=' '[' &lt;timed_values&gt; ']';</pre><pre class="literallayout">&lt;timed_values&gt; ::= &lt;timed_values&gt; ',' &lt;timed_value&gt;
+               |   &lt;timed_value&gt;
+               ;</pre><pre class="literallayout">&lt;timed_value&gt; ::= &lt;value&gt; '/' &lt;time&gt;;</pre><pre class="literallayout">&lt;pattern_triggers&gt; ::= &lt;pattern_triggers&gt; ',' &lt;pattern_trigger&gt;
+                   |   &lt;pattern_trigger&gt;
+                   ;</pre><pre class="literallayout">&lt;pattern_trigger&gt; ::= &lt;name&gt; '=' &lt;value&gt;;</pre><pre class="literallayout">&lt;value&gt; ::= "0x"[0-9a-fA-F]+
+        |   "0"[0-7]+
+        |   [0-9]+
+        ;</pre><pre class="literallayout">&lt;name&gt; ::= [a-z][a-z0-9]*</pre><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+Semantics
+</li></ul></div><p>A sequence of <span class="emphasis"><em>sequential triggers</em></span> will start the capture when all
+members have triggered.</p><p>A set of <span class="emphasis"><em>parallel triggers</em></span> will start the capture when at least one
+of its members has triggered.</p><p>A <span class="emphasis"><em>delayed trigger</em></span> will delay the start of the capture following a
+trigger match by the specified time delay.</p><p>A <span class="emphasis"><em>pattern trigger</em></span> allows capture to start when the input signals
+have a particular state.</p><p>A <span class="emphasis"><em>timed trigger</em></span> starts a capture when an input signal has been at
+the given state for the specified time interval.</p><p>Note that although the trigger specification language allows timed and
+pattern triggers to be mixed, trigger expressiveness is usually pretty
+limited as the hardware is limited to only four registers for encoding
+triggers.</p></div><div class="section" title="8. EXAMPLES"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_examples"></a>8. EXAMPLES</h2></div></div></div><p>To capture the one bit signal <span class="emphasis"><em>clock</em></span> on channel zero together with
+the four bit signal <span class="emphasis"><em>data</em></span> (with channel four being the most
+significant bit) on channels four to one to the file
+<span class="emphasis"><em>/tmp/capture.vcd</em></span> the following command could be used:</p><pre class="screen">oblsc -s clock:0 -s data:4-1 -o /tmp/capture.vcd</pre><p>If we want the capture to start when <span class="emphasis"><em>data</em></span> has been 0 for 10ns we
+would add a trigger:</p><pre class="screen">oblsc -s clock:0 -s data:4-1 -t "data=[0/10ns]" -o /tmp/capture.vcd</pre><p>To start the capture when <span class="emphasis"><em>data</em></span> is 0xF and <span class="emphasis"><em>clock</em></span> is 1 we would use:</p><pre class="screen">oblsc -s clock:0 -s data:4-1 -t "[data=0xf,clock=1]" -o /tmp/capture.vcd</pre></div><div class="section" title="9. FIRMWARE REQUIREMENTS"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_firmware_requirements"></a>9. FIRMWARE REQUIREMENTS</h2></div></div></div><p>Oblsc will only work with the v2.12 FPGA bitstream and with PIC
+firmware versions &gt;= 2.0.</p></div><div class="section" title="10. AUTHOR"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_author"></a>10. AUTHOR</h2></div></div></div><p>The Open Bench Logic Sniffer Client was written by Frej Drejhammar &lt;<a class="ulink" href="mailto:frej.drejhammar@gmail.com" target="_top">frej.drejhammar@gmail.com</a>&gt;.</p></div><div class="section" title="11. RESOURCES"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_resources"></a>11. RESOURCES</h2></div></div></div><p>Main web site: <a class="ulink" href="http://frej.github.com/oblsc" target="_top">http://frej.github.com/oblsc</a></p><p>Public git repository: <a class="ulink" href="https://github.com/frej/oblsc" target="_top">https://github.com/frej/oblsc</a></p><p>Bug-tracker: <a class="ulink" href="https://github.com/frej/oblsc/issues" target="_top">https://github.com/frej/oblsc/issues</a></p><p>Wikipedia article on VCD: <a class="ulink" href="https://secure.wikimedia.org/wikipedia/en/wiki/Value_change_dump" target="_top">https://secure.wikimedia.org/wikipedia/en/wiki/Value_change_dump</a></p><p>Desktop Entry Specification <a class="ulink" href="http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html" target="_top">http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html</a></p><p>Gtkwave, a VCD viewer <a class="ulink" href="http://gtkwave.sourceforge.net/" target="_top">http://gtkwave.sourceforge.net/</a></p></div><div class="section" title="12. COPYING"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_copying"></a>12. COPYING</h2></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+The oblsc software
+</li></ul></div><p>The oblsc software is distributed under the terms of the GNU GENERAL
+PUBLIC LICENSE Version 2 and is Copyright (C) 2010-2011 by Frej Drejhammar
+&lt;<a class="ulink" href="mailto:frej.drejhammar@gmail.com" target="_top">frej.drejhammar@gmail.com</a>&gt;.</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+This documentation
+</li></ul></div><p>Copyright (C) 2010-2011 Frej Drejhammar &lt;<a class="ulink" href="mailto:frej.drejhammar@gmail.com" target="_top">frej.drejhammar@gmail.com</a>&gt;.</p><p>Permission is granted to make and distribute verbatim copies of this
+document provided the copyright notice and this permission notice are
+preserved on all copies.</p><p>Permission is granted to copy and distribute modified versions of this
+document under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.</p><p>Permission is granted to copy and distribute translations of this
+document into another language, under the above conditions for
+modified versions, except that this permission notice may be stated in
+a translation approved by the Free Software Foundation.</p></div></div></body></html>
