@@ -236,9 +236,13 @@ The Open Bench Logic Sniffer Client was written by {author} {email}.
 
 RESOURCES
 ---------
-Wikipedia article on VCD: <https://secure.wikimedia.org/wikipedia/en/wiki/Value_change_dump>
+Main web site: <http://frej.github.com/oblsc>
 
-Main web site: <https://github.com/frej/oblsc/wiki>
+Public git repository: <https://github.com/frej/oblsc>
+
+Bug-tracker: <https://github.com/frej/oblsc/issues>
+
+Wikipedia article on VCD: <https://secure.wikimedia.org/wikipedia/en/wiki/Value_change_dump>
 
 Desktop Entry Specification http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
 
