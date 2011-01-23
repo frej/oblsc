@@ -10,7 +10,7 @@ MANPAGE_DIR	?= $(PREFIX)/share/man/man1/
 BIN_DIR		?= $(PREFIX)/bin/
 
 # Compilation flags
-VERSION		= 110123
+VERSION		= 110123.1
 PKG_MODULES	= glib-2.0
 OPTIMIZE	= -O2
 DEFS		= -D_GNU_SOURCE -DVERSION_STRING="\"$(VERSION)\""
