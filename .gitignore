@@ -3,6 +3,7 @@
 /.*.dep
 /oblsc
 /oblsc.1
+/oblsc.1.html
 /sump_read
 /trigger_lex.c
 /trigger_lex.h

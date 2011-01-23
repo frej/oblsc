@@ -46,6 +46,8 @@ clean:
 
 oblsc.1: oblsc.1.txt
 
+oblsc.1.html: oblsc.1.txt
+
 distfile:
 	git archive --format=tar v$(VERSION) --prefix=oblsc-$(VERSION)/ | \
 		gzip > oblsc-$(VERSION).tar.gz
@@ -58,6 +60,9 @@ install: $(LOAD_MODULE) $(MAN_PAGES)
 
 %.1: %.1.txt
 	a2x -f manpage oblsc.1.txt
+
+%.1.html: %.1.txt
+	a2x -f xhtml oblsc.1.txt
 
 %.o : %.c
 	@echo "Cc" $<
