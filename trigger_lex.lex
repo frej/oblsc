@@ -34,7 +34,7 @@
 DIGIT        [0-9]
 HEX_DIGIT    [0-9a-fA-F]
 OCTAL_DIGIT  [0-7]
-NAME         [a-z][a-z0-9]*
+NAME         [a-zA-Z][A-Za-z0-9]*
 WHITESPACE   [ \t\n]
 
 %%
