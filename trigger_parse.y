@@ -20,7 +20,7 @@
  * 02110-1301, USA.
  */
  %locations
-%pure_parser
+%pure-parser
 %lex-param {yyscan_t scanner}
 %parse-param {yyscan_t scanner}
 %parse-param {struct state *state}

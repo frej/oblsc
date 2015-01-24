@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "trigger.h"
+typedef void* yyscan_t;
 #include "trigger_type.h"
 #include "trigger_parse.h"
 #include "trigger_lex.h"
