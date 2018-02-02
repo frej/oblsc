@@ -101,9 +101,10 @@ static guint32 unpack_sample(guint32 channels_in_use, guint8 *samples)
 		v |= *samples--;
 	if (channels_in_use & 0x0000FF00)
 		v |= (*samples-- << 8);
-	if (channels_in_use & 0x00FF0000)
+	if (channels_in_use & 0x00FF0000) {
 		v |= (*samples-- << 16);
 		samples--;
+	}
 	if (channels_in_use & 0xFF000000)
 		v |= (*samples-- << 24);
 	return v;
