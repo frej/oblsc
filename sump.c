@@ -226,7 +226,8 @@ gboolean sump_cmd_set_trigger(gint fd, struct sump_trigger *trigger)
 		CMD_SET_TRIGGER_0_VALUES,
 		0, 0, 0, 0,
 		CMD_SET_TRIGGER_0_CONF,
-		0, 0, 0, 0
+		0, 0, 0, 0,
+		0
 	};
 	guint32 *mask_ptr = (guint32 *)(buffer + 1);
 	guint32 *values_ptr = (guint32 *)(buffer + 6);
@@ -265,7 +266,7 @@ gboolean sump_cmd_set_size(gint fd,
 {
 	guint8 buffer[] = {
 		CMD_SET_READ_AND_DELAY_COUNT,
-		0, 0, 0, 0
+		0, 0, 0, 0, 0
 	};
 	guint32 *read_ptr = (guint32 *)(buffer + 1);
 	guint32 *delay_ptr = (guint32 *)(buffer + 3);
